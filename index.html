@@ -1,73 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta charset="utf-8"/>
-        <meta http-equiv="pragma" content="no-cache"/>
-        <title>Created with GameMaker</title>
-        <style>
-            body, html {
-                margin: 0;
-                padding: 0;
-                border: 0;
-                overflow: hidden;
-                height: 100%;
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background-color: #000; /* Black background */
-            }
-            canvas {
-                display: block;
-            }
-        </style>
-    </head>
-    <body>
-        <canvas id="canvas" width="640" height="360">
-            <p>Your browser doesn't support HTML5 canvas.</p>
-        </canvas>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>HTML Game</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            background-color: #000;
+        }
+        #canvas {
+            max-width: 100%;
+            max-height: calc(100vh - 50px); /* Leave space for the toolbar */
+            aspect-ratio: 16 / 9; /* Maintain the aspect ratio */
+            background: #fff; /* Canvas background */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="640" height="360"></canvas>
+    <script src="html5game/Mmo.js"></script>
+    <script>
+        function resizeCanvas() {
+            const canvas = document.getElementById('canvas');
+            const aspectRatio = 640 / 360;
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight - 50; // Account for the toolbar height
 
-        <script type="text/javascript" src="html5game/Mmo.js?cachebust=794473108"></script>
-        <script>
-            function requestFullscreen() {
-                var canvas = document.getElementById('canvas');
-                if (canvas.requestFullscreen) {
-                    canvas.requestFullscreen();
-                } else if (canvas.mozRequestFullScreen) { // Firefox
-                    canvas.mozRequestFullScreen();
-                } else if (canvas.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                    canvas.webkitRequestFullscreen();
-                } else if (canvas.msRequestFullscreen) { // IE/Edge
-                    canvas.msRequestFullscreen();
-                }
+            if (windowWidth / windowHeight > aspectRatio) {
+                canvas.style.width = windowHeight * aspectRatio + 'px';
+                canvas.style.height = windowHeight + 'px';
+            } else {
+                canvas.style.width = windowWidth + 'px';
+                canvas.style.height = windowWidth / aspectRatio + 'px';
             }
+        }
 
-            function resizeCanvas() {
-                var canvas = document.getElementById('canvas');
-                var aspectRatio = 640 / 360;
-                var windowWidth = window.innerWidth;
-                var windowHeight = window.innerHeight;
-
-                // Adjust canvas dimensions based on window size while maintaining aspect ratio
-                if (windowWidth / windowHeight > aspectRatio) {
-                    canvas.style.width = windowHeight * aspectRatio + 'px';
-                    canvas.style.height = windowHeight + 'px';
-                } else {
-                    canvas.style.width = windowWidth + 'px';
-                    canvas.style.height = windowWidth / aspectRatio + 'px';
-                }
-            }
-
-            window.addEventListener('resize', resizeCanvas);
-            window.onload = function() {
-                GameMaker_Init();
-                resizeCanvas();
-                requestFullscreen(); // Automatically request fullscreen on load
-            };
-        </script>
-    </body>
+        window.addEventListener('resize', resizeCanvas);
+        window.onload = resizeCanvas;
+    </script>
+</body>
 </html>
