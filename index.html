@@ -33,6 +33,19 @@
 
         <script type="text/javascript" src="html5game/Mmo.js?cachebust=794473108"></script>
         <script>
+            function requestFullscreen() {
+                var canvas = document.getElementById('canvas');
+                if (canvas.requestFullscreen) {
+                    canvas.requestFullscreen();
+                } else if (canvas.mozRequestFullScreen) { // Firefox
+                    canvas.mozRequestFullScreen();
+                } else if (canvas.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                    canvas.webkitRequestFullscreen();
+                } else if (canvas.msRequestFullscreen) { // IE/Edge
+                    canvas.msRequestFullscreen();
+                }
+            }
+
             function resizeCanvas() {
                 var canvas = document.getElementById('canvas');
                 var aspectRatio = 640 / 360;
@@ -53,6 +66,7 @@
             window.onload = function() {
                 GameMaker_Init();
                 resizeCanvas();
+                requestFullscreen(); // Automatically request fullscreen on load
             };
         </script>
     </body>
